@@ -1,14 +1,12 @@
 package com.jshme.basicscodelab2
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -27,9 +25,23 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 private fun MyApp(names: List<String> = listOf("World", "Compose")) {
-    Column(modifier = Modifier.padding(vertical = 4.dp)) {
-        for (name in names) {
-            Greeting(name = name)
+    //delegate pattern 을 이용해 value 로 직접 접근하는 것을 방지
+    var shouldShowOnboarding by remember { mutableStateOf(true) }
+
+    if(shouldShowOnboarding) {
+        OnboardingScreen(onContinueClicked = {
+            shouldShowOnboarding = false
+        })
+    } else {
+        Greetings(names)
+    }
+}
+
+@Composable
+fun Greetings(names: List<String>) {
+    Column(modifier = Modifier.padding(vertical = 14.dp)) {
+        for(name in names) {
+            Greeting(name)
         }
     }
 }
@@ -77,8 +89,39 @@ fun DefaultPreview() {
     }
 }
 
-fun OnboardingScreen() {
-    val shouldShowOnboarding by remember { mutableStateOf(true) }
+@Composable
+fun OnboardingScreen(onContinueClicked: () -> Unit) {
+//    //delegate pattern 을 이용해 value 로 직접 접근하는 것을 방지
+//   var shouldShowOnboarding by remember { mutableStateOf(true) }
 
-    Su
+    Surface {
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(text = " Welcome to the Basics Codelab!")
+            Button(
+                modifier = Modifier.padding(vertical = 24.dp),
+                onClick = {
+                    onContinueClicked()
+                }
+            ) {
+                Text("Continue!")
+            }
+        }
+    }
 }
+
+// preview 는 동시에 띄울 수 있음.
+@Preview(showBackground = true, widthDp = 320, heightDp = 320)
+@Composable
+fun OnboardingPreview() {
+    BasicsCodelab2Theme {
+        OnboardingScreen(onContinueClicked = {})
+    }
+}
+
+
+
+
