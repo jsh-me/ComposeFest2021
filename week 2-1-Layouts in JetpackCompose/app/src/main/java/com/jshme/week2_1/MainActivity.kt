@@ -15,6 +15,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -332,12 +333,12 @@ fun StaggeredGrid(
 
 
 @Composable
-fun Chip(modifier: Modifier = Modifier , text: String) {
-    Card (
+fun Chip(modifier: Modifier = Modifier, text: String) {
+    Card(
         modifier = modifier,
         border = BorderStroke(color = Color.Black, width = Dp.Hairline),
         shape = RoundedCornerShape(8.dp)
-    ){
+    ) {
         Row(
             modifier = Modifier.padding(start = 8.dp, top = 4.dp, end = 8.dp, bottom = 4.dp),
             verticalAlignment = Alignment.CenterVertically
@@ -354,7 +355,7 @@ fun Chip(modifier: Modifier = Modifier , text: String) {
     }
 }
 
-val topics =  listOf(
+val topics = listOf(
     "Arts & Crafts", "Beauty", "Books", "Business", "Comics", "Culinary",
     "Design", "Fashion", "Film", "History", "Maths", "Music", "People", "Philosophy",
     "Religion", "Social sciences", "Technology", "TV", "Writing"
@@ -370,9 +371,17 @@ fun ChipPreview() {
 
 @Composable
 fun BodyChips(modifier: Modifier = Modifier) {
-    StaggeredGrid(modifier = modifier.horizontalScroll(rememberScrollState())) {
-        for (topic in topics) {
-            Chip(modifier = Modifier.padding(8.dp), text = topic)
+    Row(
+        modifier = Modifier
+            .background(color = Color.LightGray)
+            .padding(16.dp)
+            .size(200.dp)
+            .horizontalScroll(rememberScrollState())
+    ) {
+        StaggeredGrid {
+            for (topic in topics) {
+                Chip(modifier = Modifier.padding(8.dp), text = topic)
+            }
         }
     }
 }
