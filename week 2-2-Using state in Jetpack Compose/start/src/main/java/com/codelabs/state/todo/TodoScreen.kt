@@ -193,6 +193,7 @@ fun TodoItemInput(
 //                modifier = Modifier.align(Alignment.CenterVertically),
 //                enabled = text.isNotBlank()
 //            )
+
             Spacer(modifier = Modifier.width(8.dp))
             Box() {
                 buttonSlot()

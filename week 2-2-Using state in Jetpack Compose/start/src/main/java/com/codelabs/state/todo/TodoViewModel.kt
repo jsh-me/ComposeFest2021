@@ -41,6 +41,7 @@ class TodoViewModel : ViewModel() {
         currentEditPosition = todoItems.indexOf(item)
     }
 
+
     fun onEditDone() {
         currentEditPosition = -1
     }
